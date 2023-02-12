@@ -12,8 +12,20 @@ import javafx.stage.StageStyle;
 
 public final class Main extends Application {
 
+    private static boolean instantClose;
+
     @Override
     public void start(Stage stage) {
+        System.out.println("Hello world!");
+
+        Module module = getClass().getModule();
+        System.out.println("Current module is: " + (module.isNamed() ? module.getName() : "<unnamed>"));
+
+        if (instantClose) {
+            stage.close();
+            return;
+        }
+
         Font font = Font.loadFont(getClass().getResourceAsStream("/assets/fonts/herralds.otf"), 20D);
 
         Button closeButton = new Button("Close Window");
@@ -26,10 +38,7 @@ public final class Main extends Application {
         root.setStyle("-fx-background-color: aquamarine; -fx-background-radius: 20px;");
 
         Scene scene = new Scene(root, 800D, 600D);
-
-        // the app scene completely isn't visible on native run
-        // I have temporary set white scene background to fix it :(
-        scene.setFill(Color.WHITE);
+        scene.setFill(Color.TRANSPARENT);
 
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
@@ -40,6 +49,7 @@ public final class Main extends Application {
     }
 
     public static void main(String[] args) {
+        instantClose = args.length != 0 && args[0].equalsIgnoreCase("--instant-close");
         Application.launch(args);
     }
 
