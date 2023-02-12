@@ -8,4 +8,4 @@ export JAVA_HOME=$nik_home
 
 command="$JAVA_HOME/bin/java -p target/gvmsandbox.jar -m graalvm.sandbox/me.soknight.graalvm.sandbox.Main"
 
-/usr/bin/time -f "\nStart-up Time:\t%S sec." $command
+time -f "\nStart-up Time:\t%S sec." $command
